@@ -6,19 +6,16 @@ import yfinance as yf
 from pandas_datareader import data as pdr
 
 # Get stock data
-def get_stock_data(ticker):
+def get_stock_data():
 
-    # Copied screener2.py
+    # Copied from screener2.py
     yf.pdr_override()
 
     stock = input("Enter a stock ticker symbol:")
 
     print(stock)
-    startyear=2022
-    startmonth=1
-    startday=1
 
-    start=dt.datetime.now() - dt.timedelta(days=365)
+    start=dt.datetime.now() - dt.timedelta(days=252)
     end=dt.datetime.now()
 
     df=pdr.get_data_yahoo(stock,start,end)
