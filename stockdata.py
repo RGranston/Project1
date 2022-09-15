@@ -4,6 +4,7 @@ import technical_indicators as ti
 import datetime as dt
 import yfinance as yf
 from pandas_datareader import data as pdr
+import pandas_datareader as web
 
 # Get stock data
 def get_stock_data():
@@ -30,3 +31,10 @@ def apply_indicators(stocks, indicators):
 
 
     return stocks_df
+
+def sp500_data():
+    start = dt.datetime.now() - dt.timedelta(days=252)
+    end = dt.datetime.now()
+
+    sp500_df = web.DataReader('^GSPC', 'yahoo', start, end)
+    return sp500_df
