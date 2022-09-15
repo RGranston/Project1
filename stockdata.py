@@ -2,21 +2,18 @@
 import pandas as pd
 import technical_indicators as ti
 import datetime as dt
-import yfinance as yf
+import yahoo_fin as yf
 from pandas_datareader import data as pdr
 import pandas_datareader as web
 
 # Get stock data
 def get_stock_data():
 
-    # Copied from screener2.py
-    yf.pdr_override()
-
     stock = input("Enter a stock ticker symbol:")
 
     print(stock)
 
-    start=dt.datetime.now() - dt.timedelta(days=252)
+    start=dt.datetime.now() - dt.timedelta(days=365)
     end=dt.datetime.now()
 
     df=pdr.get_data_yahoo(stock,start,end)
@@ -33,7 +30,7 @@ def apply_indicators(stocks, indicators):
     return stocks_df
 
 def sp500_data():
-    start = dt.datetime.now() - dt.timedelta(days=252)
+    start = dt.datetime.now() - dt.timedelta(days=365)
     end = dt.datetime.now()
 
     sp500_df = web.DataReader('^GSPC', 'yahoo', start, end)
