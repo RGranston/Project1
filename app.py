@@ -2,17 +2,13 @@
 import pandas as pd
 import stockdata as sd
 import questionary
+import sys
 
 # Ask stock preference
 def ask_stock_preference():
-    index = ["S&P 500", "Dow 30", "Custom"]
+    index = ["S&P 500", "Dow 30"]
     result = questionary.select("Select stocks you want to scan", index).ask()
-    if result == "Manual Selection":
-        tickers = questionary.text("Enter tickers separated by comma. ex) MSFT,TSLA,KO,T").ask()
-        tickers_list = tickers.split(",")
-        return tickers_list
-    else:
-        return result
+    return result
 
 
 # Filter good performing stocks as of today.
@@ -51,21 +47,19 @@ if __name__ == "__main__":
     filter_4_df = filter_3_df[filter_3_df['close'] >= filter_3_df['EMA 20']]
 
     # Display the result
-    for n in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
-        if n.empty == True:    
+    for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
+        if df.empty == True:    
             continue
-        elif n.empty != True:
-            print("List of Good trending stocks' tickers:", list(n['ticker']))
+        elif df.empty != True:
+            print("List of Good trending stocks' tickers:", list(df['ticker']))
             print()
             print("Some details of Good trending stocks")
-            print(n[['ticker', 'close', 'total_return']])
-            x = list(n['ticker'])
+            print(df[['ticker', 'close', 'total_return']])
+            saved_tickers = list(df['ticker'])
             break
         else:
-            print("Today is not the day for long trade")
-    print(x)
-    saved_tickers = x
-
+            print("No stocks you selected matches the criteria")
+            sys.exit("Today is not the day for long trade")
 
     # Store data in CSV database to visualize over Jupyter Lab
-    
+    sd.store_in_csv(df, saved_tickers)

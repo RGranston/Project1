@@ -69,6 +69,13 @@ def get_stock_data(stocks):
 
 
 # Put Data in SQL database for easier use
-def store_in_sql_tables(combined_df, stock_tickers):
+def store_in_csv(df, stock_tickers):        
+    # Store tickers name for separate CSV
+    tickers_df = pd.DataFrame(stock_tickers, columns=['tickers'])
+    tickers_df.to_csv("Resources/tickers_list/tickers_list.csv", index=False)
 
-    return
+    # Store each tickers' data into separate CSV
+    for ticker in stock_tickers:
+        tickers_df = df[df['ticker'] == ticker]
+        tickers_df.to_csv(f'Resources\{ticker}.csv')
+
