@@ -3,21 +3,27 @@ import pandas as pd
 import stockdata as sd
 import questionary
 
-# Ask user what type of technical analysis they're looking for
-def ask_indicators():
-    technical_analysis_indicators = [
-        "Golden Cross", "Dead Cross", "20EMA > 20SMA", "RSI > 50", "exit"
-    ]
-    result = questionary.select("Which indicator would you like to use to filter?", technical_analysis_indicators).ask()
-    return result
+
+
+def ask_stock_preference():
+    index = ["S&P 500", "Dow 30", "Custom"]
+    result = questionary.select("Select stocks you want to scan", index).ask()
+    if result == "Manual Selection":
+        tickers = questionary.text("Enter tickers separated by comma. ex) MSFT,TSLA,KO,T").ask()
+        tickers_list = tickers.split(",")
+        return tickers_list
+    else:
+        return result
 
 # Main Application
 if __name__ == "__main__":
 
-    # Ask stock preference (for now, only Dow 30)
-    stocks = sd.get_stock_data()
-    # Check the result
-    print(stocks)
+    # Ask stock preference
+    stocks = ask_stock_preference()
+
+    # Get stock data
+    stocks_information_df = sd.get_stock_data(stocks)
+    print(stocks_information_df.head())
 
     # Ask indicators they want to use to filter
     indicators = []
