@@ -1,3 +1,5 @@
+import questionary
+
 # Ask user what type of technical analysis they're looking for
 def ask_indicators():
     technical_analysis_indicators = [
