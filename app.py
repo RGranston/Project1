@@ -6,9 +6,14 @@ import sys
 
 # Ask stock preference
 def ask_stock_preference():
-    index = ["S&P 500", "Dow 30"]
+    index = ["S&P 500", "Dow 30", "Custom"]
     result = questionary.select("Select stocks you want to scan", index).ask()
-    return result
+    if result == "Custom":
+        tickers = questionary.text("Enter tickers separated by comma. ex) MSFT,TSLA,KO,T").ask()
+        tickers_list = tickers.split(",")
+        return tickers_list
+    else:
+        return result
 
 
 # Filter good performing stocks as of today.
@@ -18,7 +23,7 @@ def filter_good_performance_stocks(data):
     # Drop all row except today
     todays_data = data[data.index == pd.to_datetime(today)]
     # Drop all tickers that has total_return less than SPY's total_return
-    todays_performance_df = todays_data[todays_data['total_return'] >= todays_data[todays_data['ticker'] == 'SPY']['total_return'][0]]
+    todays_performance_df = todays_data[todays_data['total_return'] > todays_data[todays_data['ticker'] == 'SPY']['total_return'][0]]
     sorted_df = todays_performance_df.sort_values('total_return', ascending=False)
     return sorted_df
 
@@ -33,8 +38,13 @@ if __name__ == "__main__":
 
     # Filter good performing (Total return more than SPY) stocks
     good_performance_df = filter_good_performance_stocks(stocks_information_df)
-    print(f"Stocks with total return greater than S&P500")
-    print(good_performance_df[['ticker', 'close', 'total_return']])
+
+    if good_performance_df.empty != True:
+        print(f"Stocks with total return greater than S&P500")
+        print(good_performance_df[['ticker', 'close', 'total_return']])
+    else:
+        print("No stocks you selected matches the criteria")
+        sys.exit("Today is not the day for long trade")        
 
     # Filter out with technical analysis
     # Passing Golden Cross
@@ -63,6 +73,7 @@ if __name__ == "__main__":
         else:
             print("No stocks you selected matches the criteria")
             sys.exit("Today is not the day for long trade")
+
 
     # Store data in CSV database to visualize over Jupyter Lab
     sd.store_in_csv(stocks_information_df, saved_tickers)

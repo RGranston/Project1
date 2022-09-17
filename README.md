@@ -1,4 +1,4 @@
-# Required sodules to run the app.py
+# Required modules to run the app.py
 
 `pandas`
 
