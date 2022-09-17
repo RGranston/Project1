@@ -48,9 +48,12 @@ if __name__ == "__main__":
 
     # Display the result
     for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
+        # Go through filters above and create priority
         if df.empty == True:    
             continue
         elif df.empty != True:
+            # If the filters return more than 10 stocks, then limit number to top 10.
+            df = df.iloc[0:10, :]
             print("List of Good trending stocks' tickers:", list(df['ticker']))
             print()
             print("Some details of Good trending stocks")
@@ -62,4 +65,4 @@ if __name__ == "__main__":
             sys.exit("Today is not the day for long trade")
 
     # Store data in CSV database to visualize over Jupyter Lab
-    sd.store_in_csv(df, saved_tickers)
+    sd.store_in_csv(stocks_information_df, saved_tickers)
