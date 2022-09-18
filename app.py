@@ -3,6 +3,8 @@ import pandas as pd
 import stockdata as sd
 import questionary
 import sys
+import os
+import fire
 
 # Ask stock preference
 def ask_stock_preference():
@@ -29,7 +31,7 @@ def filter_good_performance_stocks(data):
 
 
 # Main Application
-if __name__ == "__main__":
+def run():
     # Ask stock preference
     stocks = ask_stock_preference()    
 
@@ -78,3 +80,8 @@ if __name__ == "__main__":
 
     # Store data in CSV database to visualize over Jupyter Lab
     sd.store_in_csv(stocks_information_df, saved_tickers)
+
+    os.system("voila display.ipynb")
+
+if __name__ == "__main__":
+    fire.Fire(run)
