@@ -24,7 +24,8 @@
 
 
 # Instructions to install the modules
-
-**Exept** `TA-lib`, use `pip install "module name"` on GitBash or Terminal
+*Make sure to install all the modules in working environment!*
 
 In order to install `TA-lib`, type `conda install -c conda-forge ta-lib` on GitBash or Terminal
+
+Type `pip install "module name"` on GitBash or Terminal to install all other modules
