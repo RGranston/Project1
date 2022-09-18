@@ -80,8 +80,13 @@ def run():
 
     # Store data in CSV database to visualize over Jupyter Lab
     sd.store_in_csv(stocks_information_df, saved_tickers)
-
+    
+    # Run voila in the terminal and open website
     os.system("voila display.ipynb")
 
+# Run the main application.
 if __name__ == "__main__":
-    fire.Fire(run)
+    try:
+        fire.Fire(run)
+    except Exception as e:
+        print(f"You have some error.\nError Code: {e}")
