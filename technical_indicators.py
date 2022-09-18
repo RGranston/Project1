@@ -34,6 +34,6 @@ def calculate_technical_indicators(data_dict, ticker_list):
             data_dict[ticker]["total_return"] = (1 + data_dict[ticker]["pct_change"]).cumprod()
             data_dict[ticker]["SMA 200"] = calculate_200_sma(data_dict[ticker]["close"])
             data_dict[ticker]["SMA 50"] = calculate_50_sma(data_dict[ticker]["close"])
-            data_dict[ticker]["SMA 20"] = calculate_20_ema(data_dict[ticker]["close"])
+            data_dict[ticker]["SMA 20"] = calculate_20_sma(data_dict[ticker]["close"])
             data_dict[ticker]["EMA 20"] = calculate_20_ema(data_dict[ticker]["close"])
             data_dict[ticker]["RSI"] = calculate_rsi(data_dict[ticker]["close"])

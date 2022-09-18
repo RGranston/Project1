@@ -68,7 +68,7 @@ def get_stock_data(stocks):
 
 
 
-# Put Data in SQL database for easier use
+# Put Data in CSV database for easier use
 def store_in_csv(df, stock_tickers):        
     # Store tickers name for separate CSV
     tickers_df = pd.DataFrame(stock_tickers, columns=['tickers'])

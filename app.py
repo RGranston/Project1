@@ -42,6 +42,7 @@ if __name__ == "__main__":
     if good_performance_df.empty != True:
         print(f"Stocks with total return greater than S&P500")
         print(good_performance_df[['ticker', 'close', 'total_return']])
+    # End program if there is no stocks with better performance than SPY
     else:
         print("No stocks you selected matches the criteria")
         sys.exit("Today is not the day for long trade")        
