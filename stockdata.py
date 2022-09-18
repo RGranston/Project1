@@ -1,37 +1,80 @@
 #imports
 import pandas as pd
-import technical_indicators as ti
+from technical_indicators import calculate_technical_indicators
 import datetime as dt
-import yahoo_fin as yf
-from pandas_datareader import data as pdr
-import pandas_datareader as si
+from yahoo_fin import stock_info as si
+from functools import reduce
 
 # Get stock data
-def get_stock_data():
-
-    stock = input("Enter a stock ticker symbol:")
-
-    print(stock)
-
-    start=dt.datetime.now() - dt.timedelta(days=365)
+def get_stock_data(stocks):
+    # Set start date and end date
+    start=dt.datetime.now() - dt.timedelta(days=1095)
     end=dt.datetime.now()
 
-    df=pdr.get_data_yahoo(stock,start,end)
-    return df
+    # Get SPY Data
+    spy_df = si.get_data('SPY', start_date=start, end_date=end)
+    spy_df['total_return'] = (1 + spy_df['close'].pct_change()).cumprod()
 
-# Apply selected technical analysis
-def apply_indicators(stocks, indicators):
-    # Create empty dataframe
-    stocks_df = pd.DataFrame()
+    # Conditions: S&P500 or DOW30 or Custom
+    if stocks == "S&P 500":
+        sp500_tickers = si.tickers_sp500()
+        # Get Data
+        price_data_dictionary = {
+            ticker: si.get_data(ticker, start_date=start, end_date=end) for ticker in sp500_tickers
+            }
+        ### This data looks like a dictionary
+        ### { keys : values } = { tickers : pandas df } 
+        ### For example:
+        ###   price_data_dictionary['AAPL'] returns a dataframe that has columns as "open, high, low, close, adjclose, volume and ticker"
 
-    # Create Pandas dataframe that has columns for result of selected indicators
+        # Calculate technical indicators and add columns
+        calculate_technical_indicators(price_data_dictionary, sp500_tickers)
+
+        # Make a dataframe that contains all ticker's information
+        df = reduce(lambda x, y: pd.concat([x,y], axis=0), price_data_dictionary.values())
+        ### reduce() function works similar to for loop.
+        ### reduce(function, sequence)
+        ### For this one, function is "pd.concat([x,y], axis=0)"
+        ### For this one, sequence is taking x (= first value) and y (= next value) from price_data_dictionary, which is a pandas DataFrame
+        
+
+    elif stocks == "Dow 30":
+        dow30_tickers = si.tickers_dow()
+        price_data_dictionary = {
+            ticker: si.get_data(ticker, start_date=start, end_date=end) for ticker in dow30_tickers
+            }
+
+        # Calculate technical indicators and add columns
+        calculate_technical_indicators(price_data_dictionary, dow30_tickers)
+
+        # Make a dataframe that contains all ticker's information        
+        df = reduce(lambda x, y: pd.concat([x,y], axis=0), price_data_dictionary.values())
 
 
-    return stocks_df
+    else:
+        price_data_dictionary = {
+            ticker: si.get_data(ticker, start_date=start, end_date=end) for ticker in stocks
+        }
 
-def sp500_data():
-    start = dt.datetime.now() - dt.timedelta(days=365)
-    end = dt.datetime.now()
+        # Calculate technical indicators and add columns
+        calculate_technical_indicators(price_data_dictionary, stocks)
 
-    sp500_df = si.DataReader('^GSPC', 'yahoo', start, end)
-    return sp500_df
+        # Make a dataframe that contains all ticker's information
+        df = reduce(lambda x, y: pd.concat([x,y], axis=0), price_data_dictionary.values())
+    
+    # Combine df with SPY performance
+    final_df = pd.concat([df, spy_df], axis=0)
+    return final_df
+
+
+
+# Put Data in CSV database for easier use
+def store_in_csv(df, stock_tickers):        
+    # Store tickers name for separate CSV
+    tickers_df = pd.DataFrame(stock_tickers, columns=['tickers'])
+    tickers_df.to_csv("Resources/tickers_list/tickers_list.csv", index=False)
+
+    # Store each tickers' data into separate CSV
+    for ticker in stock_tickers:
+        tickers_df = df[df['ticker'] == ticker]
+        tickers_df.to_csv(f'Resources\{ticker}.csv')
