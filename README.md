@@ -16,6 +16,12 @@
 
 `sys`
 
+`hvplot.pandas`
+
+`holoviews`
+
+`pathlib`
+
 
 # Instructions to install the modules
 
