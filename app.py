@@ -42,8 +42,8 @@ def run():
     good_performance_df = filter_good_performance_stocks(stocks_information_df)
 
     if good_performance_df.empty != True:
-        print(f"Stocks with total return greater than S&P500")
-        print(good_performance_df[['ticker', 'close', 'total_return']])
+        print(f"Stocks with total return greater than S&P500") #D
+        print(good_performance_df[['ticker', 'close', 'total_return']]) #D - then add continue
     # End program if there is no stocks with better performance than SPY
     else:
         print("No stocks you selected matches the criteria")
@@ -67,10 +67,10 @@ def run():
         elif df.empty != True:
             # If the filters return more than 10 stocks, then limit number to top 10.
             df = df.iloc[0:10, :]
-            print("List of Good trending stocks' tickers:", list(df['ticker']))
-            print()
-            print("Some details of Good trending stocks")
-            print(df[['ticker', 'close', 'total_return']])
+            print("List of Good trending stocks' tickers:", list(df['ticker'])) #D
+            print() #D
+            print("Some details of Good trending stocks") #D
+            print(df[['ticker', 'close', 'total_return']]) #D
             saved_tickers = list(df['ticker'])
             break
         else:
