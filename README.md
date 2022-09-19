@@ -23,9 +23,7 @@
 
 `sys`
 
-`hvplot`
-
-`holoviews`
+`plotly`
 
 `pathlib`
 
