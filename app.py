@@ -73,14 +73,17 @@ def run():
         print("No stocks you selected matches the criteria")
         sys.exit("Today is not the day for long trade") 
     else:
+        # Set counter to get analysis code for jupyter notebook
+        counter = 0
         for df in [filter_5_df, filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
             # Go through filters above and create priority
-            if df.empty == True:    
-                continue
+            if df.empty == True:
+                counter += 1
             elif df.empty != True:
                 # If the filters return more than 10 stocks, then limit number to top 10.
                 df = df.iloc[0:10, :]
                 saved_tickers = list(df['ticker'])
+                saved_tickers.append(counter)
                 break
 
     # Store data in CSV database to visualize over Jupyter Lab
