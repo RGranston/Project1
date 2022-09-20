@@ -59,19 +59,21 @@ def run():
     # Filter out with technical analysis
     # Passing Golden Cross
     filter_1_df = filter_by_columns_greater(good_performance_df, 'SMA 50', 'SMA 200')
+    # SMA 20 >= SMA 50
+    filter_2_df = filter_by_columns_greater(filter_1_df, 'SMA 20', 'SMA 50')
     # EMA 20 >= SMA 20
-    filter_2_df = filter_by_columns_greater(filter_1_df, 'EMA 20', 'SMA 20')
+    filter_3_df = filter_by_columns_greater(filter_2_df, 'EMA 20', 'SMA 20')
     # RSI >= 50
-    filter_3_df = filter_by_number_greater(filter_2_df, 'RSI', 50)
+    filter_4_df = filter_by_number_greater(filter_3_df, 'RSI', 50)
     # Close Price >= EMA 20
-    filter_4_df = filter_by_columns_greater(filter_3_df, 'close', 'EMA 20')
+    filter_5_df = filter_by_columns_greater(filter_4_df, 'close', 'EMA 20')
 
     # Display the result
     if filter_1_df.empty == True:
         print("No stocks you selected matches the criteria")
         sys.exit("Today is not the day for long trade") 
     else:
-        for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
+        for df in [filter_5_df, filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
             # Go through filters above and create priority
             if df.empty == True:    
                 continue
