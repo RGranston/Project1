@@ -32,13 +32,13 @@ def filter_good_performance_stocks(data):
 # Filter based on multiple columns
 def filter_by_columns_greater(df, col_1, col_2):
     df['condition'] = df[col_1] >= df[col_2]
-    df = df.drop(df[df['condition'] == False].index)
+    df = df[df['condition']].drop(columns='condition')
     return df
 
 # Filter based on a column and a number
 def filter_by_number_greater(df, col, num):
     df['condition'] = df[col] >= num
-    df = df.drop(df[df['condition'] == False].index)
+    df = df[df['condition']].drop(columns='condition')
     return df
 
 # Main Application
