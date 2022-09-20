@@ -29,6 +29,17 @@ def filter_good_performance_stocks(data):
     sorted_df = todays_performance_df.sort_values('total_return', ascending=False)
     return sorted_df
 
+# Filter based on multiple columns
+def filter_by_columns_greater(df, col_1, col_2):
+    df['condition'] = df[col_1] >= df[col_2]
+    df = df.drop(df[df['condition'] == False].index)
+    return df
+
+# Filter based on a column and a number
+def filter_by_number_greater(df, col, num):
+    df['condition'] = df[col] >= num
+    df = df.drop(df[df['condition'] == False].index)
+    return df
 
 # Main Application
 def run():
@@ -47,13 +58,13 @@ def run():
 
     # Filter out with technical analysis
     # Passing Golden Cross
-    filter_1_df = good_performance_df[good_performance_df['SMA 50'] >= good_performance_df['SMA 200']]
+    filter_1_df = filter_by_columns_greater(good_performance_df, 'SMA 50', 'SMA 200')
     # EMA 20 >= SMA 20
-    filter_2_df = filter_1_df[filter_1_df['EMA 20'] >= filter_1_df['SMA 20']]
+    filter_2_df = filter_by_columns_greater(filter_1_df, 'EMA 20', 'SMA 20')
     # RSI >= 50
-    filter_3_df = filter_2_df[filter_2_df['RSI'] >= 50]
+    filter_3_df = filter_by_number_greater(filter_2_df, 'RSI', 50)
     # Close Price >= EMA 20
-    filter_4_df = filter_3_df[filter_3_df['close'] >= filter_3_df['EMA 20']]
+    filter_4_df = filter_by_columns_greater(filter_3_df, 'close', 'EMA 20')
 
     # Display the result
     for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
