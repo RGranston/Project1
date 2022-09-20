@@ -67,23 +67,23 @@ def run():
     filter_4_df = filter_by_columns_greater(filter_3_df, 'close', 'EMA 20')
 
     # Display the result
-    for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
-        # Go through filters above and create priority
-        if df.empty == True:    
-            continue
-        elif df.empty != True:
-            # If the filters return more than 10 stocks, then limit number to top 10.
-            df = df.iloc[0:10, :]
-            print("List of Good trending stocks' tickers:", list(df['ticker'])) #D
-            print() #D
-            print("Some details of Good trending stocks") #D
-            print(df[['ticker', 'close', 'total_return']]) #D
-            saved_tickers = list(df['ticker'])
-            break
-        else:
-            print("No stocks you selected matches the criteria")
-            sys.exit("Today is not the day for long trade")
-
+    if filter_1_df.empty == True:
+        print("No stocks you selected matches the criteria")
+        sys.exit("Today is not the day for long trade") 
+    else:
+        for df in [filter_4_df, filter_3_df, filter_2_df, filter_1_df]:
+            # Go through filters above and create priority
+            if df.empty == True:    
+                continue
+            elif df.empty != True:
+                # If the filters return more than 10 stocks, then limit number to top 10.
+                df = df.iloc[0:10, :]
+                print("List of Good trending stocks' tickers:", list(df['ticker'])) #D
+                print() #D
+                print("Some details of Good trending stocks") #D
+                print(df[['ticker', 'close', 'total_return']]) #D
+                saved_tickers = list(df['ticker'])
+                break
 
     # Store data in CSV database to visualize over Jupyter Lab
     sd.store_in_csv(stocks_information_df, saved_tickers)
