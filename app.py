@@ -80,10 +80,6 @@ def run():
             elif df.empty != True:
                 # If the filters return more than 10 stocks, then limit number to top 10.
                 df = df.iloc[0:10, :]
-                print("List of Good trending stocks' tickers:", list(df['ticker'])) #D
-                print() #D
-                print("Some details of Good trending stocks") #D
-                print(df[['ticker', 'close', 'total_return']]) #D
                 saved_tickers = list(df['ticker'])
                 break
 
