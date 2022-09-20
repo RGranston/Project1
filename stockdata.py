@@ -74,6 +74,8 @@ def store_in_csv(df, stock_tickers):
     tickers_df = pd.DataFrame(stock_tickers, columns=['tickers'])
     tickers_df.to_csv("Resources/tickers_list/tickers_list.csv", index=False)
 
+    # Remove analysis id
+    stock_tickers.pop()
     # Store each tickers' data into separate CSV
     for ticker in stock_tickers:
         tickers_df = df[df['ticker'] == ticker]
