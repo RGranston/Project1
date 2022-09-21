@@ -1,7 +1,7 @@
 # Project 1 Stock Screener
-Kenny Pham
-Ryan Granston
-Yu Takahashi
+- Kenny Pham
+- Ryan Granston
+- Yu Takahashi
 
 ## Executive Summary
 In this project we built a CLI application to filter through a stock index and display its findings on an interactive graph in a web browser.
@@ -9,23 +9,23 @@ In this project we built a CLI application to filter through a stock index and d
 ## Required modules to run the app.py
 **Installation required modules**
 
-`questionary`
-`datetime`
-`yahoo_fin`
-`requests_html`
-`functools`
-`TA-lib`
-`fire`
-`voila`
+- `questionary`
+- `datetime`
+- `yahoo_fin`
+- `requests_html`
+- `functools`
+- `TA-lib`
+- `fire`
+- `voila`
 
 **Modules come with Anaconda destribution**
 
-`pandas`
-`sys`
-`plotly`
-`pathlib`
-`os`
-`csv`
+- `pandas`
+- `sys`
+- `plotly`
+- `pathlib`
+- `os`
+- `csv`
 
 ## Instructions to install the modules
 *Make sure to install all the modules in working environment!*
