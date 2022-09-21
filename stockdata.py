@@ -67,7 +67,6 @@ def get_stock_data(stocks):
     return final_df
 
 
-
 # Put Data in CSV database for easier use
 def store_in_csv(df, stock_tickers):        
     # Store tickers name for separate CSV

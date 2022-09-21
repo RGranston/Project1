@@ -17,7 +17,6 @@ def ask_stock_preference():
     else:
         return result
 
-
 # Filter good performing stocks as of today.
 def filter_good_performance_stocks(data):
     # Pick up the last business day
